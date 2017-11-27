@@ -9,10 +9,14 @@ import {
   View,
   FlatList,
   Image,
-  StatusBar
+  StatusBar,
+  ActivityIndicator
 } from "react-native";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { fetchRandomPeople } from "../redux/actions/peopleActions";
 
-export default class App extends Component {
+class PeopleApp extends Component {
   state = {
     data: ""
   };
@@ -28,7 +32,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    this.getRandomUsersFromApi().then(data => this.setState({ data }));
+    this.props.fetchRandomPeople();
   }
 
   _keyExtractor = (item, index) => item.email;
@@ -57,9 +61,15 @@ export default class App extends Component {
   };
 
   render() {
+    console.log(this.props);
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
+        <ActivityIndicator
+          size="large"
+          style={{ flex: 1 }}
+          animating={this.props.randomPeople.isFetching}
+        />
         <FlatList
           style={{ flex: 1 }}
           data={this.state.data}
@@ -101,3 +111,16 @@ const styles = StyleSheet.create({
     padding: 10
   }
 });
+
+PeopleApp.propTypes = {
+  fetchRandomPeople: PropTypes.func.isRequired,
+  randomPeople: PropTypes.object
+};
+
+const mapStateToProps = state => {
+  return {
+    randomPeople: state
+  };
+};
+
+export default connect(mapStateToProps, { fetchRandomPeople })(PeopleApp);

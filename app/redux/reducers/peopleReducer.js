@@ -5,11 +5,9 @@ import {
 } from "../actions/types";
 
 const initialState = {
-  randomPeople: {
-    isFetching: false,
-    items: [],
-    errorMessage: ""
-  }
+  isFetching: false,
+  items: [],
+  errorMessage: ""
 };
 
 const randomPeople = (state = initialState, action) => {
