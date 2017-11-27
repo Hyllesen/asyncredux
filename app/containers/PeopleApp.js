@@ -67,12 +67,11 @@ class PeopleApp extends Component {
         <StatusBar barStyle="dark-content" />
         <ActivityIndicator
           size="large"
-          style={{ flex: 1 }}
           animating={this.props.randomPeople.isFetching}
         />
         <FlatList
           style={{ flex: 1 }}
-          data={this.state.data}
+          data={this.props.randomPeople.items}
           extraData={this.state}
           keyExtractor={this._keyExtractor}
           renderItem={this._renderItem}

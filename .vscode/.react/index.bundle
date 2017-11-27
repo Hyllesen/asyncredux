@@ -53892,7 +53892,6 @@ var PeopleApp = _wrapComponent("PeopleApp")(function (_Component) {
         }),
         _react3.default.createElement(_reactNative.ActivityIndicator, {
           size: "large",
-          style: { flex: 1 },
           animating: this.props.randomPeople.isFetching,
           __source: {
             fileName: _jsxFileName,
@@ -53901,7 +53900,7 @@ var PeopleApp = _wrapComponent("PeopleApp")(function (_Component) {
         }),
         _react3.default.createElement(_reactNative.FlatList, {
           style: { flex: 1 },
-          data: this.state.data,
+          data: this.props.randomPeople.items,
           extraData: this.state,
           keyExtractor: this._keyExtractor,
           renderItem: this._renderItem,
@@ -53909,7 +53908,7 @@ var PeopleApp = _wrapComponent("PeopleApp")(function (_Component) {
           showsHorizontalScrollIndicator: false,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 73
+            lineNumber: 72
           }
         })
       );
@@ -53963,16 +53962,32 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, { fetchRandomPeople:
 __d(/* PokemonRedux/app/redux/actions/peopleActions.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.receiveRandomPeople = exports.fetchRandomPeople = undefined;
+exports.fetchRandomPeople = exports.receiveRandomPeople = exports.requestRandomPeople = undefined;
 
 var _types = require(522      ); // 522 = ./types
 
-var fetchRandomPeople = exports.fetchRandomPeople = function fetchRandomPeople() {
+var requestRandomPeople = exports.requestRandomPeople = function requestRandomPeople() {
   return { type: _types.FETCH_PEOPLE_REQUEST };
 };
 
-var receiveRandomPeople = exports.receiveRandomPeople = function receiveRandomPeople() {
-  return { type: _types.RECEIVE_PEOPLE };
+var receiveRandomPeople = exports.receiveRandomPeople = function receiveRandomPeople(json) {
+  return {
+    type: _types.RECEIVE_PEOPLE,
+    payload: json
+  };
+};
+
+var fetchRandomPeople = exports.fetchRandomPeople = function fetchRandomPeople() {
+  return function (dispatch) {
+    dispatch(requestRandomPeople());
+    return fetch("https://randomuser.me/api/?results=15").then(function (response) {
+      return response.json();
+    }, function (error) {
+      return console.log("An error occured", error);
+    }).then(function (json) {
+      return dispatch(receiveRandomPeople(json));
+    });
+  };
 };
 }, 523, null, "PokemonRedux/app/redux/actions/peopleActions.js");
 __d(/* PokemonRedux/app/redux/actions/types.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
@@ -54011,6 +54026,8 @@ var randomPeople = function randomPeople() {
         isFetching: false,
         errorMessage: "Error fetching random people"
       });
+    case _types.RECEIVE_PEOPLE:
+      return _extends({}, state, { isFetching: false, items: action.payload.results });
     default:
       return state;
   }
