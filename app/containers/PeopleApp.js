@@ -39,7 +39,7 @@ export default class App extends Component {
     return (
       <View>
         <View style={styles.cardContainerStyle}>
-          <View>
+          <View style={{ paddingRight: 5 }}>
             <Text>
               {name.first} {name.last}
             </Text>
@@ -47,9 +47,8 @@ export default class App extends Component {
             <Text>{phone}</Text>
             <Text>{email}</Text>
           </View>
-
           <Image
-            style={{ width: 65, height: 65, marginLeft: 20 }}
+            style={{ width: 65, height: 65 }}
             source={{ uri: picture.medium }}
           />
         </View>
@@ -98,7 +97,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     margin: 20,
-    backgroundColor: "#578f96",
+    backgroundColor: "#4e8087",
     padding: 10
   }
 });

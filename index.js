@@ -1,4 +1,4 @@
-import { AppRegistry } from 'react-native';
-import App from './App';
+import { AppRegistry } from "react-native";
+import App from "./app/App.js";
 
-AppRegistry.registerComponent('PokemonRedux', () => App);
+AppRegistry.registerComponent("PokemonRedux", () => App);
