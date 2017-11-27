@@ -9,7 +9,7 @@ import {
   View,
   FlatList,
   Image,
-  ListItem
+  StatusBar
 } from "react-native";
 
 export default class App extends Component {
@@ -19,7 +19,7 @@ export default class App extends Component {
 
   async getRandomUsersFromApi() {
     try {
-      const results = await fetch("https://randomuser.me/api/?results=5");
+      const results = await fetch("https://randomuser.me/api/?results=15");
       const json = await results.json();
       return json.results;
     } catch (error) {
@@ -34,42 +34,33 @@ export default class App extends Component {
   _keyExtractor = (item, index) => item.email;
 
   _renderItem = ({ item }) => {
-    const { name, picture, cell, email, phone, location } = item;
+    const { name, picture, cell, email, phone } = item;
 
     return (
-      <ListItem>
-        <View
-          style={{
-            flex: 1,
-            borderWidth: 1,
-            flexDirection: "row",
-            justifyContent: "space-between",
-            margin: 20
-          }}
-        >
-          <View style={{ borderWidth: 0, padding: 10 }}>
-            <Text>{name.title}</Text>
-            <Text>{name.first}</Text>
-            <Text>{name.last}</Text>
+      <View>
+        <View style={styles.cardContainerStyle}>
+          <View>
+            <Text>
+              {name.first} {name.last}
+            </Text>
             <Text>{cell}</Text>
             <Text>{phone}</Text>
             <Text>{email}</Text>
           </View>
-          <View style={{ padding: 10 }}>
-            <Image
-              style={{ width: 150, height: 150 }}
-              source={{ uri: picture.large }}
-            />
-          </View>
+
+          <Image
+            style={{ width: 65, height: 65, marginLeft: 20 }}
+            source={{ uri: picture.medium }}
+          />
         </View>
-      </ListItem>
+      </View>
     );
   };
 
   render() {
-    console.log(this.state.data);
     return (
       <View style={styles.container}>
+        <StatusBar barStyle="dark-content" />
         <FlatList
           style={{ flex: 1 }}
           data={this.state.data}
@@ -89,7 +80,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F5FCFF",
+    backgroundColor: "#093339",
     marginTop: 25
   },
   welcome: {
@@ -101,5 +92,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#333333",
     marginBottom: 5
+  },
+  cardContainerStyle: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    margin: 20,
+    backgroundColor: "#578f96",
+    padding: 10
   }
 });
