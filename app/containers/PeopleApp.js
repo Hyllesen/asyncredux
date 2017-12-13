@@ -11,25 +11,14 @@ import {
 } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { fetchRandomPeople } from "../redux/actions/peopleActions";
+import {
+  fetchRandomPeople,
+  fetchRandomPeopleAsyncAwait
+} from "../redux/actions/peopleActions";
 
 class PeopleApp extends Component {
-  state = {
-    data: ""
-  };
-
-  async getRandomUsersFromApi() {
-    try {
-      const results = await fetch("https://randomuser.me/api/?results=15");
-      const json = await results.json();
-      return json.results;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   componentDidMount() {
-    this.props.fetchRandomPeople();
+    this.props.fetchRandomPeopleAsyncAwait();
   }
 
   _keyExtractor = item => item.email;
@@ -108,6 +97,7 @@ const styles = StyleSheet.create({
 
 PeopleApp.propTypes = {
   fetchRandomPeople: PropTypes.func.isRequired,
+  fetchRandomPeopleAsyncAwait: PropTypes.func.isRequired,
   randomPeople: PropTypes.object
 };
 
@@ -117,4 +107,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { fetchRandomPeople })(PeopleApp);
+export default connect(mapStateToProps, {
+  fetchRandomPeople,
+  fetchRandomPeopleAsyncAwait
+})(PeopleApp);
