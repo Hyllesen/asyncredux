@@ -1,6 +1,3 @@
-/**
- * @flow
- */
 "use strict";
 import React, { Component } from "react";
 import {
@@ -35,7 +32,7 @@ class PeopleApp extends Component {
     this.props.fetchRandomPeople();
   }
 
-  _keyExtractor = (item, index) => item.email;
+  _keyExtractor = item => item.email;
 
   _renderItem = ({ item }) => {
     const { name, picture, cell, email, phone } = item;
@@ -61,10 +58,9 @@ class PeopleApp extends Component {
   };
 
   render() {
-    console.log(this.props);
     return (
       <View style={styles.container}>
-        <StatusBar barStyle="dark-content" />
+        <StatusBar hidden />
         <ActivityIndicator
           size="large"
           animating={this.props.randomPeople.isFetching}
@@ -88,8 +84,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#093339",
-    marginTop: 25
+    backgroundColor: "#093339"
   },
   welcome: {
     fontSize: 20,
