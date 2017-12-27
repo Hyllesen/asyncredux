@@ -24,12 +24,9 @@ export const fetchRandomPeople = () => {
     try {
       const response = await fetch("https://randomuser.me/api/?results=15");
       const json = await response.json();
-      console.log(response);
-      console.log(json);
       dispatch(receiveRandomPeople(json));
     } catch (error) {
       dispatch(requestRandomPeopleFailure(error));
-      console.log(error);
     }
   };
 };
