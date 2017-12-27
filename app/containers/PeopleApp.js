@@ -11,14 +11,11 @@ import {
 } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import {
-  fetchRandomPeople,
-  fetchRandomPeopleAsyncAwait
-} from "../redux/actions/peopleActions";
+import { fetchRandomPeople } from "../redux/actions/peopleActions";
 
 class PeopleApp extends Component {
   componentDidMount() {
-    this.props.fetchRandomPeopleAsyncAwait();
+    this.props.fetchRandomPeople();
   }
 
   _keyExtractor = item => item.email;
@@ -30,12 +27,11 @@ class PeopleApp extends Component {
       <View>
         <View style={styles.cardContainerStyle}>
           <View style={{ paddingRight: 5 }}>
-            <Text>
-              {name.first} {name.last}
+            <Text style={{ color: "white", textAlign: "left" }}>
+              {name.first} {name.last} {"\n"}
+              {cell} {"\n"}
+              {email}
             </Text>
-            <Text>{cell}</Text>
-            <Text>{phone}</Text>
-            <Text>{email}</Text>
           </View>
           <Image
             style={{ width: 65, height: 65 }}
@@ -49,7 +45,7 @@ class PeopleApp extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <StatusBar hidden />
+        <StatusBar />
         <ActivityIndicator
           size="large"
           animating={this.props.randomPeople.isFetching}
@@ -97,7 +93,6 @@ const styles = StyleSheet.create({
 
 PeopleApp.propTypes = {
   fetchRandomPeople: PropTypes.func.isRequired,
-  fetchRandomPeopleAsyncAwait: PropTypes.func.isRequired,
   randomPeople: PropTypes.object
 };
 
@@ -108,6 +103,5 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, {
-  fetchRandomPeople,
-  fetchRandomPeopleAsyncAwait
+  fetchRandomPeople
 })(PeopleApp);
