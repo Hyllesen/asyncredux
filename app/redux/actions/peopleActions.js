@@ -1,7 +1,7 @@
 import {
   FETCH_PEOPLE_REQUEST,
   FETCH_PEOPLE_FAILURE,
-  RECEIVE_PEOPLE
+  FETCH_PEOPLE_SUCCESS
 } from "./types";
 
 export const requestRandomPeople = () => ({ type: FETCH_PEOPLE_REQUEST });
@@ -14,7 +14,7 @@ export const requestRandomPeopleFailure = error => {
 };
 
 export const receiveRandomPeople = json => ({
-  type: RECEIVE_PEOPLE,
+  type: FETCH_PEOPLE_SUCCESS,
   payload: json
 });
 
@@ -24,9 +24,12 @@ export const fetchRandomPeople = () => {
     try {
       const response = await fetch("https://randomuser.me/api/?results=15");
       const json = await response.json();
+      console.log(response);
+      console.log(json);
       dispatch(receiveRandomPeople(json));
     } catch (error) {
       dispatch(requestRandomPeopleFailure(error));
+      console.log(error);
     }
   };
 };

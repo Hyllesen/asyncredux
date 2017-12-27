@@ -1,7 +1,7 @@
 import {
   FETCH_PEOPLE_REQUEST,
   FETCH_PEOPLE_FAILURE,
-  RECEIVE_PEOPLE
+  FETCH_PEOPLE_SUCCESS
 } from "../actions/types";
 
 const initialState = {
@@ -20,7 +20,7 @@ const randomPeople = (state = initialState, action) => {
         isFetching: false,
         errorMessage: "Error fetching random people"
       };
-    case RECEIVE_PEOPLE:
+    case FETCH_PEOPLE_SUCCESS:
       return { ...state, isFetching: false, items: action.payload.results };
     default:
       return state;
