@@ -1,12 +1,6 @@
 "use strict";
 import React, { Component } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  StatusBar,
-  ActivityIndicator
-} from "react-native";
+import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
 import PeopleList from "./components/PeopleList";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -18,15 +12,16 @@ class PeopleApp extends Component {
   }
 
   render() {
+    let content = null;
+    if (this.props.randomPeople.isFetching) {
+      content = <ActivityIndicator size="large" />;
+    } else {
+      content = <PeopleList items={this.props.randomPeople.items} />;
+    }
     return (
       <View style={styles.container}>
-        <StatusBar />
-        <ActivityIndicator
-          size="large"
-          animating={this.props.randomPeople.isFetching}
-        />
         <Text>{this.props.randomPeople.errorMessage}</Text>
-        <PeopleList items={this.props.randomPeople.items} />
+        {content}
       </View>
     );
   }
